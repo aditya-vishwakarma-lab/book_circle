@@ -1,0 +1,16 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Django files
+*.log
+*.pot
+db.sqlite3
+media/
+local_settings.py
+
+# Node.js dependencies
+node_modules/
+
+.github
