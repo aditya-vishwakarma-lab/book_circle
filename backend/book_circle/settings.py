@@ -73,9 +73,13 @@ WSGI_APPLICATION = 'book_circle.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "book_circle",
+        "USER": os.getenv('USER'),
+        "PASSWORD": os.getenv('PASSWORD'),
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
