@@ -1,0 +1,30 @@
+version: '3.12'
+services:
+  db:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_DB: book_circle
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: ./backend
+    command: gunicorn --bind 0.0.0.0:8000 --workers 3 book_circle.wsgi:application
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      USER: ${USER}
+      PASSWORD: ${PASSWORD}
+      DEBUG: "True"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
