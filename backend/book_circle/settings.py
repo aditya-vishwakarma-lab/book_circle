@@ -84,7 +84,7 @@ DATABASES = {
         "NAME": "book_circle",
         "USER": os.getenv('USER'),
         "PASSWORD": os.getenv('PASSWORD'),
-        "HOST": "127.0.0.1",
+        "HOST": 'db',
         "PORT": "5432",
     }
 }

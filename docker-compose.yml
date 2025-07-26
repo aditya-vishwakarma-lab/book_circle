@@ -14,7 +14,8 @@ services:
 
   web:
     build: ./backend
-    command: gunicorn --bind 0.0.0.0:8000 --workers 3 book_circle.wsgi:application
+    command: >
+      sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 --workers 3 book_circle.wsgi:application"
     volumes:
       - ./backend:/app
     ports:
