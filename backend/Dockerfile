@@ -40,6 +40,7 @@ WORKDIR /backend
 # Copy the virtual environment and app from builder stage
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /backend /backend
+COPY --from=builder /bin/uv /bin/uv
 
 # Set PATH to use the copied virtual environment
 ENV PATH="/opt/venv/bin:$PATH"
