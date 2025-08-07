@@ -1,51 +1,60 @@
-# Stage 1: Base build stage
+# Stage 1: Build stage using python slim base
 FROM python:3.12-slim AS builder
- 
-# Create the book_circle directory
-RUN mkdir /backend
- 
-# Set the working directory
+
+# Install uv binary (copy from official uv image or install via script)
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+# Set working directory
 WORKDIR /backend
- 
-# Set environment variables to optimize Python
+
+# Set Python environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1 
- 
-# Upgrade pip and install dependencies
-RUN pip install --upgrade pip 
- 
-# Copy the requirements file first (better caching)
+ENV PYTHONUNBUFFERED=1
+
+# Optionally create a virtual environment managed by uv
+RUN uv venv /opt/venv
+
+# Update PATH to prioritize virtual environment binaries
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy only requirements file first for better caching
 COPY requirements.txt /backend/
- 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
- 
-# Stage 2: Production stage
+
+# Install dependencies using uv pip inside the venv
+RUN uv pip install -r requirements.txt
+
+# Copy the rest of the application code
+COPY . /backend/
+
+# Install the project itself in editable mode (optional, depending on project)
+# RUN uv pip install -e .
+
+# Stage 2: Production image
 FROM python:3.12-slim
- 
-RUN useradd -m -r appuser && \
-   mkdir /backend && \
-   chown -R appuser /backend
- 
-# Copy the Python dependencies from the builder stage
-COPY --from=builder /usr/local/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/
-COPY --from=builder /usr/local/bin/ /usr/local/bin/
- 
-# Set the working directory
+
+# Create a non-root user and directory
+RUN useradd -m -r appuser && mkdir /backend && chown -R appuser /backend
+
 WORKDIR /backend
- 
-# Copy application code
-COPY --chown=appuser:appuser . .
- 
-# Set environment variables to optimize Python
+
+# Copy the virtual environment and app from builder stage
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /backend /backend
+
+# Set PATH to use the copied virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Set Python environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1 
- 
-# Switch to non-root user
+ENV PYTHONUNBUFFERED=1
+
+# Change ownership so appuser can access files
+RUN chown -R appuser:appuser /opt/venv /backend
+
 USER appuser
- 
-# Expose the application port
-EXPOSE 8000 
- 
-# Start the application using Gunicorn
+
+# Expose port
+EXPOSE 8000
+
+# Start the app (adjust as needed)
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "book_circle.wsgi:application"]
