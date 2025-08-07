@@ -16,11 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.users import views
+from apps.users import views as user_views
+from apps.books import views as book_views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'books', book_views.BookViewSet, basename='book')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/public', views.public),
-    path('api/private', views.private),
-    path('api/private-scoped', views.private_scoped)
+    path('api/public', user_views.public),
+    path('api/private', user_views.private),
+    path('api/private-scoped', user_views.private_scoped),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls'))
 ]
