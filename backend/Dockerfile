@@ -18,10 +18,10 @@ RUN uv venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy only requirements file first for better caching
-COPY requirements.txt /backend/
+COPY pyproject.toml /backend/
 
 # Install dependencies using uv pip inside the venv
-RUN uv pip install -r requirements.txt
+RUN uv pip install .
 
 # Copy the rest of the application code
 COPY . /backend/
