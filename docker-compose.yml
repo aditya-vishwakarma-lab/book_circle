@@ -45,6 +45,9 @@ services:
       - frontend_node_modules:/frontend/node_modules
     environment:
       CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING}
+      VITE_AUTH0_DOMAIN: ${VITE_AUTH0_DOMAIN}
+      VITE_AUTH0_CLIENT_ID: ${VITE_AUTH0_CLIENT_ID}
+      VITE_AUTH0_API_AUDIENCE: ${AUTH0_API_AUDIENCE}
     networks:
       - network
 
