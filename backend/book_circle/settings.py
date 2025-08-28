@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.books',
     'guardian',
     'phonenumber_field',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'book_circle.urls'
@@ -147,3 +149,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+

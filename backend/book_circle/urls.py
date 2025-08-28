@@ -22,11 +22,9 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'books', book_views.BookViewSet, basename='book')
+router.register(r'users', user_views.UserProfileViewSet, basename='user') 
 
 urlpatterns = [
-    path('api/public', user_views.public),
-    path('api/private', user_views.private),
-    path('api/private-scoped', user_views.private_scoped),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls'))
 ]

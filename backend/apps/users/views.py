@@ -1,34 +1,9 @@
-from authlib.integrations.django_oauth2 import ResourceProtector
-from django.http import JsonResponse
-import validator
-import os
-from dotenv import load_dotenv
-load_dotenv()
+from rest_framework import viewsets
+from .models import UserProfile
+from .serializers import UserProfileSerializer
 
-require_auth = ResourceProtector()
+class UserProfileViewSet(viewsets.ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    lookup_field = 'auth0_user_id'
 
-validator = validator.Auth0JWTBearerTokenValidator(
-    os.getenv('AUTH0_DOMAIN'),
-    os.getenv('AUTH0_API_AUDIENCE')
-)
-require_auth.register_token_validator(validator)
-
-def public(request):
-    """No access token required to access this route
-    """
-    response = "Hello from a public endpoint! You don't need to be authenticated to see this."
-    return JsonResponse(dict(message=response))
-
-@require_auth(None)
-def private(request):
-    """A valid access token is required to access this route
-    """
-    response = "Hello from a private endpoint! You need to be authenticated to see this."
-    return JsonResponse(dict(message=response))
-
-@require_auth("read:messages")
-def private_scoped(request):
-    """A valid access token and an appropriate scope are required to access this route
-    """
-    response = "Hello from a private endpoint! You need to be authenticated and have a scope of read:messages to see this."
-    return JsonResponse(dict(message=response))
