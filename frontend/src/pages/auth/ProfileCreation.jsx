@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const AUDIENCE = import.meta.env.VITE_AUTH0_API_AUDIENCE;
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 export const ProfileCreation = ({ user, onComplete }) => {
+  const AUDIENCE = import.meta.env.VITE_AUTH0_API_AUDIENCE;
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [formData, setFormData] = useState({
     name: user?.name || '',
     phone: '',

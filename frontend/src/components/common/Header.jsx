@@ -1,12 +1,12 @@
 import React from 'react';
-import { Bell, Search } from 'lucide-react';
+import { Bell, Search, Library } from 'lucide-react';
 
 export const Header = ({ title, user, showSearch = false }) => (
   <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
     <div className="px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="text-xl">📚</div>
+          <Library className="w-8 h-8" />
           <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
         </div>
         <div className="flex items-center space-x-2">
