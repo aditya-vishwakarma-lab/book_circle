@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'apps.users',
     'apps.books',
+    'apps.borrow_requests',
     'guardian',
     'phonenumber_field',
     'corsheaders'
