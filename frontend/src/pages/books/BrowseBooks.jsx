@@ -1,40 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { BookCard } from '../../components/common/BookCard';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const BrowseBooks = () => {
-  const mockBooks = [
-    {
-      id: 1,
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      genre: "Fiction",
-      condition: "Good",
-      owner: "Alice Johnson",
-      area: "Bandra West",
-      image: "📖"
-    },
-    {
-      id: 2,
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      genre: "Fiction",
-      condition: "Excellent",
-      owner: "Bob Wilson",
-      area: "Andheri East",
-      image: "📗"
-    },
-    {
-      id: 3,
-      title: "1984",
-      author: "George Orwell",
-      genre: "Dystopian",
-      condition: "Fair",
-      owner: "Carol Smith",
-      area: "Powai",
-      image: "📘"
+  const [books, setBooks] = useState([]);
+  const { getAccessTokenSilently } = useAuth0();
+  const AUDIENCE = import.meta.env.VITE_AUTH0_API_AUDIENCE;
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const fetchBooks = async () => {
+    try {
+      const url = `${API_BASE_URL}/api/books/`;
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: { audience: AUDIENCE }
+      });
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+
+      const data = await response.json();
+      setBooks(data);
+    } catch (error) {
+      console.error('Error fetching books:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, [API_BASE_URL, AUDIENCE, getAccessTokenSilently]);
 
   const handleBookRequest = (book) => {
     console.log('Requesting book:', book);
@@ -53,7 +53,7 @@ export const BrowseBooks = () => {
 
       {/* Book List */}
       <div className="space-y-3">
-        {mockBooks.map((book) => (
+        {books.map((book) => (
           <BookCard 
             key={book.id} 
             book={book} 

@@ -1,6 +1,7 @@
 from django.db import models
-
+from apps.users.models import UserProfile
 class Book(models.Model):
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='books')
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     isbn = models.CharField(max_length=20, blank=True, null=True)

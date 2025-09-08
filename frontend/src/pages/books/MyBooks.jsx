@@ -13,7 +13,7 @@ export const MyBooks = () => {
 
   const fetchBooks = async () => {
       try {
-        const url = `${API_BASE_URL}/api/books/`;
+        const url = `${API_BASE_URL}/api/books/?owner=current_user`;
         const accessToken = await getAccessTokenSilently({
           authorizationParams: { audience: AUDIENCE }
         });
