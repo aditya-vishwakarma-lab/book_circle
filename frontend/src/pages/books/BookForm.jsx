@@ -63,7 +63,7 @@ export const BookForm = ({ onClose, onBookAdded }) => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className=" bg-gray-50 p-6">
       <div className="max-w-md mx-auto pt-8">
         <div className="text-center mb-8">
           <div className="text-4xl mb-4">📚</div>

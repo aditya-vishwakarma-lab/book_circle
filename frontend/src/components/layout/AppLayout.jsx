@@ -10,14 +10,13 @@ export const AppLayout = ({
   user, 
   showSearch = false 
 }) => (
-  <div className="min-h-screen bg-gray-50">
+  <div className="flex flex-col min-h-screen">
     <Header 
       title={title} 
-      user={user} 
-      showSearch={showSearch} 
+      user={user}
     />
     
-    <main className="min-h-screen">
+    <main className="flex-1 pb-18">
       {children}
     </main>
     

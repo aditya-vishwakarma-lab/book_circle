@@ -10,7 +10,7 @@ export const BottomNav = ({ activeTab, onTabChange }) => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 h-18">
       <div className="flex">
         {tabs.map(({ id, icon: Icon, label }) => (
           <button

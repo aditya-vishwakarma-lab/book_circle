@@ -12,7 +12,7 @@ export const LandingPage = ({ onLogin, onSignup, error }) => (
         </p>
         <div className="flex items-center justify-center text-sm text-gray-500">
           <MapPin className="w-4 h-4 mr-1" />
-          Mumbai, India
+          Bengaluru, India
         </div>
       </div>
       

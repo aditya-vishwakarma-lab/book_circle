@@ -11,9 +11,6 @@ import { Dashboard } from './pages/dashboard/Dashboard';
 import { MyBooks } from './pages/books/MyBooks';
 import { Profile } from './pages/profile/Profile';
 
-const AUDIENCE = import.meta.env.VITE_AUTH0_API_AUDIENCE;
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 function App() {
   const {
     isLoading,
@@ -24,9 +21,12 @@ function App() {
     user,
     getAccessTokenSilently,
   } = useAuth0();
-
+  
+  const AUDIENCE = import.meta.env.VITE_AUTH0_API_AUDIENCE;
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [activeTab, setActiveTab] = useState('browse');
   const [profileExists, setProfileExists] = useState(false);
+  const [profileChecking, setProfileChecking] = useState(false);
 
   // Auth0 login with signup hint
   const signup = () =>
@@ -36,17 +36,18 @@ function App() {
   const logout = () =>
     auth0Logout({ logoutParams: { returnTo: window.location.origin } });
 
-  // Check if user profile is completed (you'll replace this with API call)
   useEffect(() => {
     if (isAuthenticated && user) {
       // TODO: Replace with actual API call to check if user profile exists
+      setProfileChecking(true);
       checkUserProfile(user.sub)
         .then(async (exists) => {
           if (exists) {
             setProfileExists(true)
           } else {
             setProfileExists(false)
-          }
+          };
+          setProfileChecking(false);
         })
     }
   }, [isAuthenticated, user]);
@@ -98,7 +99,7 @@ function App() {
   };
 
   // Loading state
-  if (isLoading) {
+  if (isLoading || profileChecking) {
     return <LoadingSpinner />;
   }
 

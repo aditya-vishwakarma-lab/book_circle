@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { BookForm } from './BookForm';
+import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 
 export const MyBooks = () => {
   const [books, setBooks] = useState([]);
@@ -38,6 +39,21 @@ export const MyBooks = () => {
     fetchBooks();
   }, [API_BASE_URL, AUDIENCE, getAccessTokenSilently]);
 
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (showForm){
+    return(
+      <BookForm
+        onClose={() => setShowForm(false)}
+        onBookAdded={() => {
+          setShowForm(false);
+          fetchBooks();
+        }}
+      />
+    )
+  }
 
   return (
     <div className="p-4 pb-20">
@@ -51,19 +67,7 @@ export const MyBooks = () => {
         </button>
       </div>
 
-      {showForm && (
-        <BookForm
-          onClose={() => setShowForm(false)}
-          onBookAdded={() => {
-            setShowForm(false);
-            fetchBooks();
-          }}
-        />
-      )}
-
-      {loading ? (
-        <p>Loading books...</p>
-      ) : (
+      {
         <div className="space-y-3">
           {books.map((book) => (
             <div key={book.id} className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
@@ -85,7 +89,7 @@ export const MyBooks = () => {
             </div>
           ))}
         </div>
-      )}
+      }
     </div>
   );
 };
