@@ -5,7 +5,7 @@ export const BottomNav = ({ activeTab, onTabChange }) => {
   const tabs = [
     { id: 'browse', icon: Home, label: 'Browse' },
     { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
-    { id: 'books', icon: BookOpen, label: 'My Books' },
+    { id: 'books', icon: BookOpen, label: 'My Library' },
     { id: 'profile', icon: User, label: 'Profile' }
   ];
 

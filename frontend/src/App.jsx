@@ -8,7 +8,7 @@ import { LandingPage } from './pages/auth/LandingPage';
 import { ProfileCreation } from './pages/auth/ProfileCreation';
 import { BrowseBooks } from './pages/books/BrowseBooks';
 import { Dashboard } from './pages/dashboard/Dashboard';
-import { MyBooks } from './pages/books/MyBooks';
+import { MyBooks } from './pages/books/MyLibrary';
 import { Profile } from './pages/profile/Profile';
 
 function App() {
@@ -163,7 +163,7 @@ function App() {
     const titles = {
       browse: 'Browse Books',
       dashboard: 'Dashboard', 
-      books: 'My Books',
+      books: 'My Library',
       profile: 'Profile'
     };
     return titles[activeTab] || 'BookCircle';

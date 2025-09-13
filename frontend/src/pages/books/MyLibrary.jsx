@@ -58,7 +58,7 @@ export const MyBooks = () => {
   return (
     <div className="p-4 pb-20">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">My Books ({books.length})</h2>
+        <h2 className="text-lg font-semibold text-gray-900">Your Books ({books.length})</h2>
         <button
           onClick={() => setShowForm(true)}
           className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
